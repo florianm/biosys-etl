@@ -55,3 +55,10 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# secret config
+secret.py
+
+
+# iPython checkpoints
+.ipynb_checkpoints/
