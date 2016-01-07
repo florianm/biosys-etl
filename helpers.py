@@ -10,6 +10,27 @@ from pyproj import Proj, transform
 import re
 from slugify import slugify
 
+#-------------------------------------------------------------------------------------#
+# BioSys
+#-------------------------------------------------------------------------------------#
+
+def get_data(config, dataset_name):
+    """Return a csv.DictReader from an online CSV
+    
+    Arguments
+        config (dict) A config dict of name - CKAN resource ID key-value pairs
+        dataset_name A name from the config dict
+        
+    Returns
+        csv.DictReader
+    """
+    if not dataset_name in config.keys():
+        return None
+    url = ck.action.resource_show(id=config[dataset_name])["url"]
+    with open(url, 'rb') as sites_file:
+        datadict = csv.DictReader(sites_file)
+    return datadict
+
 
 #-------------------------------------------------------------------------------------#
 # SLIP Classic
