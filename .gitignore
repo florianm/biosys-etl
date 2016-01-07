@@ -62,3 +62,6 @@ secret.py
 
 # iPython checkpoints
 .ipynb_checkpoints/
+
+# data
+data/
