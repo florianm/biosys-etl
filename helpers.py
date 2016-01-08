@@ -26,7 +26,9 @@ def get_data(ckanapi, config):
         dict of "datasheet name":"csv.DictReader"
     """
     return {n: csv.DictReader(
-            requests.get(ck.action.resource_show(id=config[n])["url"]).content
+                requests.get(
+                    ckanapi.action.resource_show(id=config[n])["url"]
+                ).content.split("\n")
             ) for n in config.keys()}
 
 
