@@ -14,22 +14,20 @@ from slugify import slugify
 # BioSys
 #-------------------------------------------------------------------------------------#
 
-def get_data(config, dataset_name):
-    """Return a csv.DictReader from an online CSV
+def get_data(ckanapi, config):
+    """Return a dict of filenames:
+    CKAN resource IDs as dict of filenames:csv.DictReaders
     
     Arguments
-        config (dict) A config dict of name - CKAN resource ID key-value pairs
-        dataset_name A name from the config dict
+        ckanapi (ckanapi) A ckanapi instance
+        config (dict) A dict of "datasheet name":"CKAN resource ID"
         
     Returns
-        csv.DictReader
+        dict of "datasheet name":"csv.DictReader"
     """
-    if not dataset_name in config.keys():
-        return None
-    url = ck.action.resource_show(id=config[dataset_name])["url"]
-    with open(url, 'rb') as sites_file:
-        datadict = csv.DictReader(sites_file)
-    return datadict
+    return {n: csv.DictReader(
+            requests.get(ck.action.resource_show(id=config[n])["url"]).content
+            ) for n in config.keys()}
 
 
 #-------------------------------------------------------------------------------------#
